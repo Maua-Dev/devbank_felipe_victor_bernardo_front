@@ -5,6 +5,7 @@ import './index.css'
 import Account from './pages/Account'
 import Deposit from './pages/Deposit'
 import Withdraw from './pages/Withdraw'
+import { TransitionsHistory } from './pages/TransitionsHistory'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<Account />} />
         <Route path="/deposit" element={<Deposit />} />
         <Route path="/withdraw" element={<Withdraw />} />
+        <Route path="/history" element={<TransitionsHistory />}/>
       </Routes>
     </Router>
   </StrictMode>,

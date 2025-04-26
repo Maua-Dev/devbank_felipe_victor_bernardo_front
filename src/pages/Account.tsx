@@ -34,7 +34,7 @@ function Account() {
             </button>
           </div>
           <div className="flex-1 min-w-0 bg-sky-300 p-2 rounded-lg h-[70px] flex items-center">
-            <button className="w-full p-2 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition h-full flex items-center justify-center whitespace-normal">
+            <button className="w-full p-2 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition h-full flex items-center justify-center whitespace-normal" onClick={() => navigate("/history")}>
               Visualizar histórico de transações
             </button>
           </div>
