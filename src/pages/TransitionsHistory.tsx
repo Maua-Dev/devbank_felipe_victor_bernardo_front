@@ -78,7 +78,7 @@ export function TransitionsHistory() {
       <div className="flex h-full items-end justify-center m-2">
         <button
           className="transition bg-blue-500 text-white font-bold rounded-lg p-2 w-[150px]"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/account")}
         >
           Voltar
         </button>
