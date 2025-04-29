@@ -2,7 +2,9 @@ import { useNavigate } from "react-router-dom";
 import BillGroup from "../components/BillGroup";
 import Header from "../components/Header";
 import Balance from "../components/Balance";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AccountResponseType } from "./Account";
+import { APIEndpointContext } from "../contexts/api-endpoint";
 
 function Deposit() {
   const navigate = useNavigate();
@@ -15,11 +17,28 @@ function Deposit() {
     }
   };
 
+  const [response, setResponse] = useState<AccountResponseType>();
+
+  const apiContext = useContext(APIEndpointContext)?.endpoint;  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await (await fetch(apiContext as string)).json();
+
+        setResponse(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  });
+
   return (
     <>
       {/* passar as informações do header e balance pela API, retirar os placeholders deles e adicionar funcionalidade aos botões */}
-      <Header name="teste" agency={1234} account="12345-6" />
-      <Balance balance={0} changed={0} final={0} type="deposit" />
+      <Header name={response?.name as string} agency={response?.agency as string} account={response?.account as string} />
+      <Balance balance={ response?.current_balance as number } changed={0} final={0} type="deposit" />
       <div className="flex flex-col gap-5 justify-center">
         <div className="text-center mb-1">
           <p>Selecione as cédulas e a quantidade desejada de cada uma:</p>

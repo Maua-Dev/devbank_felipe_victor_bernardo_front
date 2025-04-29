@@ -1,12 +1,14 @@
 import { Component } from "react";
 
+
 type HeaderProps = {
     name: string;
-    agency: number;
+    agency: string;
     account: string;
 }
 
 class Header extends Component<HeaderProps> {
+
   render() {
     return (
       <nav className="bg-blue-700 h-[100px] relative flex items-center pl-5">
