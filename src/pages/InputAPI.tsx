@@ -5,7 +5,7 @@ import { APIEndpointContext } from "../contexts/api-endpoint";
 function InputAPI() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
-  const apiContext = useContext(APIEndpointContext);
+  // const apiContext = useContext(APIEndpointContext);
 
   const verify = () => {
     // a lógica abaixo é placeholder, mudar depois para verificar a API da maneira correta
@@ -14,7 +14,9 @@ function InputAPI() {
 
     if (url_regex.test(inputValue)) {
     
-      apiContext?.setEndpoint(inputValue)
+      // apiContext?.setEndpoint(inputValue)
+
+      localStorage.setItem("apiEndpoint", inputValue)
 
       navigate("/account");
     }

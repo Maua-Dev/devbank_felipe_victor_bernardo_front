@@ -19,12 +19,15 @@ function Deposit() {
 
   const [response, setResponse] = useState<AccountResponseType>();
 
-  const apiContext = useContext(APIEndpointContext)?.endpoint;  
+  // const apiContext = useContext(APIEndpointContext)?.endpoint;  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await (await fetch(apiContext as string)).json();
+
+        const url = localStorage.getItem("apiEndpoint");
+
+        const data = await (await fetch(url as string)).json();
 
         setResponse(data);
       } catch (error) {
