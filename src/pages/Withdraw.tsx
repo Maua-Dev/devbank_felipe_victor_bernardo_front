@@ -28,7 +28,7 @@ function Withdraw() {
         <div className="mt-5 flex items-center justify-center text-center gap-20">
           <button
             className="transition bg-blue-500 text-white font-bold rounded-lg p-2 w-[150px]"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/account")}
           >
             Voltar
           </button>
