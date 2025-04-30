@@ -1,18 +1,28 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { APIEndpointContext } from "../contexts/api-endpoint";
 
 function InputAPI() {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
+  // const apiContext = useContext(APIEndpointContext);
 
   const verify = () => {
     // a lógica abaixo é placeholder, mudar depois para verificar a API da maneira correta
-    if (inputValue === "https://r2tcz6zsokynb72jb6o4ffd5nm0ryfyz.lambda-url.us-west-2.on.aws/") {
+
+    const url_regex = /^https:\/\/[a-z0-9]+\.lambda-url\.[a-z0-9-]+\.on\.aws\/?$/;
+
+    if (url_regex.test(inputValue)) {
+    
+      // apiContext?.setEndpoint(inputValue)
+
+      localStorage.setItem("apiEndpoint", inputValue)
+
       navigate("/account");
     }
 
     else {
-        alert("Insira um URL válido")
+        alert("Insira um endpoint válido")
     }
   };
 

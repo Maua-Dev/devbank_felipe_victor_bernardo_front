@@ -1,19 +1,52 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import { useContext, useEffect, useState } from "react";
+import { APIEndpointContext } from "../contexts/api-endpoint";
+
+export type AccountResponseType = {
+      name: string,
+      agency: string,
+      account: string,
+      current_balance: number
+}
 
 function Account() {
   const navigate = useNavigate();
 
+  const [ response, setResponse ] = useState<AccountResponseType>()
+
+  // const apiContext = useContext(APIEndpointContext)?.endpoint
+
+  useEffect( () => {
+
+    const fetchData = async () => {
+
+      try {
+        
+        const url = localStorage.getItem("apiEndpoint")
+
+        const data = await ( await fetch(url as string) ).json();
+        
+        setResponse(data)
+
+      } catch (error) {
+        console.log( error )
+      }
+
+    }
+    fetchData()
+  }, [])
+
   return (
     <>
-      <Header name="teste" agency={1234} account="12345-6" />
+      <Header name={response?.name as string} agency={response?.agency as string} account={response?.account as string} />
       <div className="my-10 flex flex-col items-center justify-center">
         <div className="bg-sky-300 w-[700px] p-3 rounded-lg flex items-center justify-between">
           <div className="text-blue-900">
             <p>O que você deseja fazer?</p>
           </div>
           <div className="bg-blue-500 p-3 rounded-lg w-[200px] text-center text-white">
-            Saldo atual:
+            Saldo atual: R$ {response?.current_balance}
           </div>
         </div>
         <div className="mt-5 flex justify-between items-center w-[700px] border p-3 gap-4">
