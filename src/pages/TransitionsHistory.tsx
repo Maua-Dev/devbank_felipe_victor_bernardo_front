@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import TransactionCard from "../components/TransactionCard";
 import { useNavigate } from "react-router-dom";
+import { AccountResponseType } from "./Account";
 
 type HistoryResponseType =  {
   type: string;
@@ -12,6 +13,7 @@ type HistoryResponseType =  {
 
 export function TransitionsHistory() {
   const [transactions, setTransactions] = useState<HistoryResponseType[]>([]);
+  const [ account, setAccount ] = useState<AccountResponseType>()
 
   async function getTransactions() {
 
@@ -34,6 +36,19 @@ export function TransitionsHistory() {
   } 
 
   useEffect(  () => {
+
+    const fetchAccontDetails = async () => {
+      try {
+        const url = localStorage.getItem("apiEndpoint");
+
+        const data = await (await fetch(url as string)).json();
+
+        setAccount(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAccontDetails();
     getTransactions();
   }, [])
 
@@ -41,7 +56,7 @@ export function TransitionsHistory() {
 
   return (
     <div>
-      <Header name="teste" agency="1234" account="12345-6" />
+      <Header name={account?.name as string} agency={ account?.agency as string } account={ account?.account as string } />
 
       <div className="bg-[#0073E6]/60 px-5 py-3 mx-5 my-8 rounded-lg">
         <p className="text-3xl text-white ">Histórico de transações</p>
