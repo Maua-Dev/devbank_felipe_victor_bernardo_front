@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import { useContext, useEffect, useState } from "react";
-import { APIEndpointContext } from "../contexts/api-endpoint";
+import { useEffect, useState } from "react";
 
 export type AccountResponseType = {
       name: string,

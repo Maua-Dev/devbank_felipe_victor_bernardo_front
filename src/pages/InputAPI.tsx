@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { APIEndpointContext } from "../contexts/api-endpoint";
+import { useState } from "react";
 
 function InputAPI() {
   const navigate = useNavigate();
