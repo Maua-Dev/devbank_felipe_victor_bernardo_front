@@ -18,10 +18,10 @@ class Balance extends Component<BalanceProps> {
           <div className="text-blue-900 flex items-center gap-10">
             <p>
               {this.props.type === "deposit"
-                ? `Quantidade depositada: ${this.props.changed}`
-                : `Quantidade sacada: ${this.props.changed}`}
+                ? `Quantidade para depositar: R$ ${this.props.changed}`
+                : `Quantidade para sacar: R$ ${this.props.changed}`}
             </p>
-            <p>Quantidade final: {this.props.final}</p>
+            <p>Quantidade final: R$ {this.props.final}</p>
           </div>
         </div>
       </div>

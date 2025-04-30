@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import BillGroup from "../components/BillGroup";
+import BillGroup, { BillData, BillGroupState } from "../components/BillGroup";
 import Header from "../components/Header";
 import Balance from "../components/Balance";
 import { useContext, useEffect, useState } from "react";
@@ -9,22 +9,52 @@ import { APIEndpointContext } from "../contexts/api-endpoint";
 function Deposit() {
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
+  const [selectedBills, setSelectedBills] = useState<BillGroupState>();
+  const [response, setResponse] = useState<AccountResponseType>();
 
-  const handleDeposit = () => {
+  const handleDeposit = async () => {
+
+    if(!selectedBills) {
+      alert(`Nenhuma nota selectionada para depositar!`)
+      return;
+    }
+
     if (total > 0) {
       alert(`Valor total depositado: R$ ${total.toFixed(2)}`);
-      // colocar lógica para atualizar o saldo aqui
+
+      const url = localStorage.getItem("apiEndpoint");
+
+      const body: { [key: number]: number } = {
+        2: 0,
+        5: 0,
+        10: 0,
+        20: 0,
+        50: 0,
+        100: 0,
+        200: 0,
+      };
+
+      for(const bill of selectedBills.bills) body[bill.value] = bill.quantity
+
+
+      await (
+        await fetch(`${url}deposit`, {
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+      ).json();
+
+      
+      window.location.reload();
+
     }
   };
 
-  const [response, setResponse] = useState<AccountResponseType>();
-
-  // const apiContext = useContext(APIEndpointContext)?.endpoint;  
+  // const apiContext = useContext(APIEndpointContext)?.endpoint;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const url = localStorage.getItem("apiEndpoint");
 
         const data = await (await fetch(url as string)).json();
@@ -35,22 +65,34 @@ function Deposit() {
       }
     };
     fetchData();
-  });
+  }, []);
 
   return (
     <>
       {/* passar as informações do header e balance pela API, retirar os placeholders deles e adicionar funcionalidade aos botões */}
-      <Header name={response?.name as string} agency={response?.agency as string} account={response?.account as string} />
-      <Balance balance={ response?.current_balance as number } changed={0} final={0} type="deposit" />
+      <Header
+        name={response?.name as string}
+        agency={response?.agency as string}
+        account={response?.account as string}
+      />
+      <Balance
+        balance={response?.current_balance as number}
+        changed={total}
+        final={(response?.current_balance as number) + total}
+        type="deposit"
+      />
       <div className="flex flex-col gap-5 justify-center">
         <div className="text-center mb-1">
           <p>Selecione as cédulas e a quantidade desejada de cada uma:</p>
         </div>
-        <BillGroup onTotalChange={setTotal} />
+        <BillGroup
+          onTotalChange={setTotal}
+          onBillsChange={setSelectedBills}
+        />
         <div className="mt-5 flex items-center justify-center text-center gap-20">
           <button
             className="transition bg-blue-500 text-white font-bold rounded-lg p-2 w-[150px]"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/account")}
           >
             Voltar
           </button>

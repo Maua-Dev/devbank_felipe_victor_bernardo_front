@@ -17,7 +17,9 @@ export function TransitionsHistory() {
 
     try {
 
-      const response = await ( await fetch(`https://r2tcz6zsokynb72jb6o4ffd5nm0ryfyz.lambda-url.us-west-2.on.aws/history`)).json();
+      const url = localStorage.getItem("apiEndpoint")
+
+      const response = await ( await fetch(`${url}history`)).json();
 
       setTransactions(response.all_transactions as HistoryResponseType[])
 
@@ -32,23 +34,14 @@ export function TransitionsHistory() {
   } 
 
   useEffect(  () => {
-
-    // const get_transactions = async () => {
-    //   const result = await (await fetch(`https://r2tcz6zsokynb72jb6o4ffd5nm0ryfyz.lambda-url.us-west-2.on.aws/history`) ).json()
-    //   console.log(result)
-    // }
-    
-    // get_transactions()
-
     getTransactions();
-
   }, [])
 
   const navigate = useNavigate();
 
   return (
     <div>
-      <Header name="teste" agency={1234} account="12345-6" />
+      <Header name="teste" agency="1234" account="12345-6" />
 
       <div className="bg-[#0073E6]/60 px-5 py-3 mx-5 my-8 rounded-lg">
         <p className="text-3xl text-white ">Histórico de transações</p>
@@ -78,7 +71,7 @@ export function TransitionsHistory() {
       <div className="flex h-full items-end justify-center m-2">
         <button
           className="transition bg-blue-500 text-white font-bold rounded-lg p-2 w-[150px]"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/account")}
         >
           Voltar
         </button>

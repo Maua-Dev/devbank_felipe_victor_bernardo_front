@@ -1,17 +1,18 @@
 import { Component } from "react";
 import Bill from "./Bill";
 
-interface BillData {
+export interface BillData {
   value: number;
   quantity: number;
 }
 
-interface BillGroupState {
+export interface BillGroupState {
   bills: BillData[];
 }
 
 type BillGroupProps = {
   onTotalChange?: (total: number) => void;
+  onBillsChange?: (bills: BillGroupState) => void;
 };
 
 class BillGroup extends Component<BillGroupProps, BillGroupState> {
@@ -29,14 +30,23 @@ class BillGroup extends Component<BillGroupProps, BillGroupState> {
 
   handleBillChange = (value: number, quantity: number) => {
     this.setState(
+
       (prevState: BillGroupState) => ({
-        bills: prevState.bills.map((bill) =>
+        bills: prevState.bills.map( (bill) =>
           bill.value === value ? { ...bill, quantity } : bill
         ),
       }),
+
       () => {
         if (this.props.onTotalChange) {
           this.props.onTotalChange(this.calculateTotal());
+        }
+
+        if(this.props.onBillsChange) {
+
+          this.props.onBillsChange( this.state )
+
+
         }
       }
     );
