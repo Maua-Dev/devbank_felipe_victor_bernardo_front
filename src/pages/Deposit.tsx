@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import BillGroup, { BillData, BillGroupState } from "../components/BillGroup";
+import BillGroup, {  BillGroupState } from "../components/BillGroup";
 import Header from "../components/Header";
 import Balance from "../components/Balance";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AccountResponseType } from "./Account";
-import { APIEndpointContext } from "../contexts/api-endpoint";
 
 function Deposit() {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Deposit() {
     }
 
     if (total > 0) {
-      alert(`Valor total depositado: R$ ${total.toFixed(2)}`);
+      
 
       const url = localStorage.getItem("apiEndpoint");
 
@@ -44,8 +43,11 @@ function Deposit() {
         })
       ).json();
 
-      
+      alert(`Valor total depositado: R$ ${total.toFixed(2)}`);
+
       window.location.reload();
+
+
 
     }
   };
