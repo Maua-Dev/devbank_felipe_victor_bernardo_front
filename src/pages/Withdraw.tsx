@@ -65,7 +65,11 @@ function Withdraw() {
   return (
     <>
       {/* passar as informações do header e balance pela API, retirar os placeholders deles e adicionar funcionalidade aos botões */}
-      <Header name="teste" agency="1234" account="12345-6" />
+      <Header
+        name={response?.name as string}
+        agency={response?.agency as string}
+        account={response?.account as string}
+      />
       <Balance
         balance={response?.current_balance as number}
         changed={total}
